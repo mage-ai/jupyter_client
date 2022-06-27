@@ -1042,18 +1042,18 @@ class Session(Configurable):
             msg_list = t.cast(t.List[bytes], msg_list)
             msg_list = msg_list_beginning + msg_list[minlen:]
         msg_list = t.cast(t.List[bytes], msg_list)
-        if self.auth is not None:
-            signature = msg_list[0]
-            if not signature:
-                raise ValueError("Unsigned Message")
-            if signature in self.digest_history:
-                raise ValueError("Duplicate Signature: %r" % signature)
-            if content:
-                # Only store signature if we are unpacking content, don't store if just peeking.
-                self._add_digest(signature)
-            check = self.sign(msg_list[1:5])
-            if not compare_digest(signature, check):
-                raise ValueError("Invalid Signature: %r" % signature)
+        # if self.auth is not None:
+        #     signature = msg_list[0]
+        #     if not signature:
+        #         raise ValueError("Unsigned Message")
+        #     if signature in self.digest_history:
+        #         raise ValueError("Duplicate Signature: %r" % signature)
+        #     if content:
+        #         # Only store signature if we are unpacking content, don't store if just peeking.
+        #         self._add_digest(signature)
+        #     check = self.sign(msg_list[1:5])
+        #     if not compare_digest(signature, check):
+        #         raise ValueError("Invalid Signature: %r" % signature)
         if not len(msg_list) >= minlen:
             raise TypeError("malformed message, must have at least %i elements" % minlen)
         header = self.unpack(msg_list[1])
